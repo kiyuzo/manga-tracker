@@ -4,6 +4,7 @@ import SearchBar from "@/components/SearchBar";
 import MyList from "@/components/MyList";
 import Footer from "@/components/Footer";
 
+
 export default function Home() {
   return (
     <div>

@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, ChangeEvent } from "react";
+import Link from "next/link";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL;
 
@@ -92,23 +93,25 @@ function SearchBar() {
                     {error && <div className="text-red-500 bg-white rounded shadow p-2">{error}</div>}
                     {results.length > 0 && (
                         <ul className="bg-white rounded shadow max-h-64 overflow-y-auto border">
-                            {results.map((manga, idx) => (
-                                <li
-                                    key={`${manga.mal_id}-${idx}`}
-                                    className="flex items-center gap-4 px-4 py-2 border-b last:border-b-0"
-                                >
-                                    <img
-                                        src={
-                                            manga.images?.webp?.image_url ||
-                                            manga.images?.jpg?.image_url ||
-                                            "/vercel.svg"
-                                        }
-                                        alt={manga.title}
-                                        className="w-12 h-16 object-cover rounded"
-                                    />
-                                    <span className="font-medium">{manga.title}</span>
-                                </li>
-                            ))}
+                        {results.map((manga, idx) => (
+                            <li key={`${manga.mal_id}-${idx}`}>
+                            <Link
+                                href={`/manga/${manga.mal_id}`}
+                                className="flex items-center gap-4 px-4 py-2 border-b last:border-b-0 hover:bg-gray-100 transition"
+                            >
+                                <img
+                                src={
+                                    manga.images?.webp?.image_url ||
+                                    manga.images?.jpg?.image_url ||
+                                    "/vercel.svg"
+                                }
+                                alt={manga.title}
+                                className="w-12 h-16 object-cover rounded"
+                                />
+                                <span className="font-medium">{manga.title}</span>
+                            </Link>
+                            </li>
+                        ))}
                         </ul>
                     )}
                 </div>
