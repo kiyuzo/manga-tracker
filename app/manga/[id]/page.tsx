@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 
 interface MangaDetail {
   mal_id: number;
@@ -13,7 +14,6 @@ interface MangaDetail {
   volumes?: number;
   status?: string;
   score?: number;
-  // Add more fields as needed
 }
 
 export default async function MangaDetailPage({ params }: { params: { id: string } }) {
@@ -22,27 +22,31 @@ export default async function MangaDetailPage({ params }: { params: { id: string
   const data = await res.json();
   const manga: MangaDetail = data.data;
 
+  const imageUrl = manga.images?.webp?.image_url ?? manga.images?.jpg?.image_url ?? "/vercel.svg";
+
   return (
     <div className="max-w-3xl mx-auto py-10 px-4">
-      <div className="flex gap-8">
-        <img
-          src={manga.images?.webp?.image_url || manga.images?.jpg?.image_url || "/vercel.svg"}
+      <div className="flex gap-6">
+        <Image
+          src={imageUrl}
           alt={manga.title}
+          width={192}
+          height={288}
           className="w-48 h-auto rounded shadow"
+          unoptimized={imageUrl === "/vercel.svg"}
         />
+
         <div>
           <h1 className="text-3xl font-bold mb-2">{manga.title}</h1>
           <p className="mb-4 text-gray-700">{manga.synopsis || "No synopsis available."}</p>
-          <div className="text-sm text-gray-500">
+
+          <div className="text-sm text-gray-500 space-y-1">
             <div>Status: {manga.status || "Unknown"}</div>
             <div>Chapters: {manga.chapters ?? "?"}</div>
             <div>Volumes: {manga.volumes ?? "?"}</div>
             <div>Score: {manga.score ?? "?"}</div>
             <div>
-              Authors:{" "}
-              {manga.authors && manga.authors.length > 0
-                ? manga.authors.map(a => a.name).join(", ")
-                : "Unknown"}
+              Authors: {manga.authors && manga.authors.length > 0 ? manga.authors.map((a) => a.name).join(", ") : "Unknown"}
             </div>
           </div>
         </div>

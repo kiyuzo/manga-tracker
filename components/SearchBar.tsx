@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, ChangeEvent } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || process.env.API_URL;
 
@@ -76,6 +77,7 @@ function SearchBar() {
                     <line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
                 <input
+                    suppressHydrationWarning
                     type="text"
                     className="bg-transparent outline-none w-full text-gray-700 placeholder-gray-400"
                     placeholder="Search manga..."
@@ -99,15 +101,19 @@ function SearchBar() {
                                 href={`/manga/${manga.mal_id}`}
                                 className="flex items-center gap-4 px-4 py-2 border-b last:border-b-0 hover:bg-gray-100 transition"
                             >
-                                <img
-                                src={
-                                    manga.images?.webp?.image_url ||
-                                    manga.images?.jpg?.image_url ||
-                                    "/vercel.svg"
-                                }
-                                alt={manga.title}
-                                className="w-12 h-16 object-cover rounded"
-                                />
+                                                                <div className="w-12 h-16 relative rounded overflow-hidden bg-gray-100">
+                                                                    <Image
+                                                                        src={
+                                                                            manga.images?.webp?.image_url ||
+                                                                            manga.images?.jpg?.image_url ||
+                                                                            "/vercel.svg"
+                                                                        }
+                                                                        alt={manga.title}
+                                                                        fill
+                                                                        sizes="48px"
+                                                                        className="object-cover"
+                                                                    />
+                                                                </div>
                                 <span className="font-medium">{manga.title}</span>
                             </Link>
                             </li>
