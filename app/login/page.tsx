@@ -10,9 +10,6 @@ export default function LoginPage() {
 				<div className="flex justify-center">
 					<GoogleAuth />
 				</div>
-				<div className="mt-6 text-xs text-gray-400">
-					By signing in you agree that a user record (name, email, created_at) will be stored in the app database.
-				</div>
 			</div>
 		</main>
 	);
