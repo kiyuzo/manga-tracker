@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import AddToListButton from "@/components/AddToListButton";
 
 interface MangaDetail {
   mal_id: number;
@@ -17,7 +18,8 @@ interface MangaDetail {
 }
 
 export default async function MangaDetailPage({ params }: { params: { id: string } }) {
-  const res = await fetch(`https://api.jikan.moe/v4/manga/${params.id}`);
+  const { id } = await params;
+  const res = await fetch(`https://api.jikan.moe/v4/manga/${id}`);
   if (!res.ok) return notFound();
   const data = await res.json();
   const manga: MangaDetail = data.data;
@@ -39,6 +41,13 @@ export default async function MangaDetailPage({ params }: { params: { id: string
         <div>
           <h1 className="text-3xl font-bold mb-2">{manga.title}</h1>
           <p className="mb-4 text-gray-700">{manga.synopsis || "No synopsis available."}</p>
+
+          {/* Add to list UI (client only) */}
+          <div className="mb-4">
+            {/* manga.mal_id is the Jikan id */}
+            {/* cover_url uses imageUrl computed above */}
+            <AddToListButton mangaId={manga.mal_id} title={manga.title} coverUrl={imageUrl} />
+          </div>
 
           <div className="text-sm text-gray-500 space-y-1">
             <div>Status: {manga.status || "Unknown"}</div>
