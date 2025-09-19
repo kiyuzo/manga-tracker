@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import AddToListButton from "@/components/AddToListButton";
+import ReviewForm from "@/components/ReviewForm";
 
 interface MangaDetail {
   mal_id: number;
@@ -47,6 +48,11 @@ export default async function MangaDetailPage({ params }: { params: { id: string
             {/* manga.mal_id is the Jikan id */}
             {/* cover_url uses imageUrl computed above */}
             <AddToListButton mangaId={manga.mal_id} title={manga.title} coverUrl={imageUrl} />
+          </div>
+
+          <div className="mb-4">
+            {/* client-only review form */}
+            <ReviewForm mangaId={manga.mal_id} initialRating={null} initialReview={null} />
           </div>
 
           <div className="text-sm text-gray-500 space-y-1">
